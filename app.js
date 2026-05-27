@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
+import Listing from './models/listing.js';
 
 const app = express();
 const port = 3000;
