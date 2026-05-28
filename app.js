@@ -98,6 +98,20 @@ app.put('/listings/:id', async (req, res) => {
     }
 });
 
+// Delete Route
+app.delete('/listings/:id', async (req, res) => {
+    try {
+        const listing = await Listing.findByIdAndDelete(req.params.id);
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+        res.redirect('/listings');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
