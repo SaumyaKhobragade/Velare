@@ -39,6 +39,20 @@ app.get('/listings', async (req, res) => {
     }
 });
 
+//Show Route
+app.get('/listings/:id', async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.id);
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+        res.render('listings/show', { listing });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
