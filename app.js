@@ -70,6 +70,34 @@ app.post('/listings', async (req, res) => {
     }
 });
 
+// Edit Route
+app.get('/listings/:id/edit', async (req, res) => {
+    try {
+        const listing = await Listing.findById(req.params.id);
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+        res.render('listings/edit', { listing });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Update Route
+app.put('/listings/:id', async (req, res) => {
+    try {
+        const listing = await Listing.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!listing) {
+            return res.status(404).send('Listing not found');
+        }
+        res.redirect(`/listings/${listing._id}`);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
