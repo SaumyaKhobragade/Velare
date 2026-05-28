@@ -28,6 +28,17 @@ app.get('/', (req, res) => {
     res.send('Working');
 });
 
+// Index Route
+app.get('/listings', async (req, res) => {
+    try {
+        const listings = await Listing.find({});
+        res.render('listings/index', { listings });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
