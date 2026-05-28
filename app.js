@@ -58,6 +58,18 @@ app.get('/listings/:id', async (req, res) => {
     }
 });
 
+// Create Route
+app.post('/listings', async (req, res) => {
+    try {
+        const newListing = new Listing(req.body);
+        await newListing.save();
+        res.redirect('/listings');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
