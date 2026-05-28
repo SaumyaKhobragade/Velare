@@ -6,7 +6,10 @@
         <title>Velare</title>
     </head>
     <body>
-        <h2>All Listings</h2>
+        <h3>All Listings</h3>
+        <form action="/listings/new" method="GET">
+            <button type="submit">Create New Listing</button>
+        </form>
         <ul>
             <% for (let listing of listings) { %>
                 <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
