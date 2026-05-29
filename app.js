@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import Listing from './models/listing.js';
+import ejsMate from 'ejs-mate';
 
 const app = express();
 const port = 3000;
@@ -19,6 +20,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.engine('ejs', ejsMate);
 
 mongoose.connect('mongodb://127.0.0.1:27017/velare')
     .then(() => console.log('MongoDB connected'))
