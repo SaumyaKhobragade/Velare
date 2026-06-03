@@ -111,3 +111,22 @@ body {
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* Show Page */
+.show-img {
+    height: 30vh;
+    object-fit: cover;
+}
+
+.btns {
+    display: flex;
+}
+
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.delete-btn {
+    width: 7rem !important;
+}
