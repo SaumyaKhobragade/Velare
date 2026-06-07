@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import Listing from './models/listing.js';
 import ejsMate from 'ejs-mate';
+import wrapAsync from './utils/wrapAsync.js';
 
 const app = express();
 const port = 3000;
@@ -62,16 +63,11 @@ app.get('/listings/:id', async (req, res) => {
 });
 
 // Create Route
-app.post('/listings', async (req, res) => {
-    try {
-        const newListing = new Listing(req.body);
-        await newListing.save();
-        res.redirect('/listings');
-    } catch (err) {
-        console.log(err);
-        res.status(500).send('Server Error');
-    }
-});
+app.post('/listings', wrapAsync(async (req, res, next) => {
+    const newListing = new Listing(req.body);
+    await newListing.save();
+    res.redirect('/listings');
+}));
 
 // Edit Route
 app.get('/listings/:id/edit', async (req, res) => {
@@ -113,6 +109,10 @@ app.delete('/listings/:id', async (req, res) => {
         console.log(err);
         res.status(500).send('Server Error');
     }
+});
+
+app.use((err, req, res, next) => {
+    res.status(500).send('Something went wrong!');
 });
 
 app.listen(port, () => {
