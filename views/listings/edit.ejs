@@ -9,6 +9,8 @@
             <form
                 method="POST"
                 action="/listings/<%= listing._id %>?_method=PUT"
+                class="needs-validation"
+                novalidate
             >
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
@@ -20,6 +22,10 @@
                         class="form-control"
                         required
                     />
+                    <div class="valid-feedback">Title looks good!</div>
+                    <div class="invalid-feedback">
+                        Please enter a valid title.
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -33,7 +39,13 @@
                         cols="50"
                         class="form-control"
                         required
-                    ><%= listing.description %></textarea>
+                    >
+<%= listing.description %></textarea
+                    >
+                    <div class="valid-feedback">Description looks good!</div>
+                    <div class="invalid-feedback">
+                        Please enter a valid description.
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -44,12 +56,19 @@
                         name="image"
                         value="<%= listing.image %>"
                         class="form-control"
+                        required
                     />
+                    <div class="valid-feedback">Image URL looks good!</div>
+                    <div class="invalid-feedback">
+                        Please enter a valid image URL.
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="mb-3 col-md-4">
-                        <label for="price" class="form-label">Price (in INR)</label>
+                        <label for="price" class="form-label"
+                            >Price (in INR)</label
+                        >
                         <input
                             type="number"
                             id="price"
@@ -58,31 +77,43 @@
                             class="form-control"
                             required
                         />
+                        <div class="valid-feedback">Price looks good!</div>
+                        <div class="invalid-feedback">
+                            Please enter a valid price.
+                        </div>
                     </div>
-    
+
                     <div class="mb-3 col-md-8">
-                        <label for="location" class="form-label">Location</label>
+                        <label for="country" class="form-label">Country</label>
                         <input
                             type="text"
-                            id="location"
-                            name="location"
-                            value="<%= listing.location %>"
+                            id="country"
+                            name="country"
+                            value="<%= listing.country %>"
                             class="form-control"
                             required
                         />
+                        <div class="valid-feedback">Country looks good!</div>
+                        <div class="invalid-feedback">
+                            Please enter a valid country.
+                        </div>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="country" class="form-label">Country</label>
+                    <label for="location" class="form-label">Location</label>
                     <input
                         type="text"
-                        id="country"
-                        name="country"
-                        value="<%= listing.country %>"
+                        id="location"
+                        name="location"
+                        value="<%= listing.location %>"
                         class="form-control"
                         required
                     />
+                    <div class="valid-feedback">Location looks good!</div>
+                    <div class="invalid-feedback">
+                        Please enter a valid location.
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-dark edit-btn">
