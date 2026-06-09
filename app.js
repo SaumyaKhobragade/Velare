@@ -3,10 +3,13 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
+import joi from 'joi';
+
 import Listing from './models/listing.js';
 import ejsMate from 'ejs-mate';
 import wrapAsync from './utils/wrapAsync.js';
 import ExpressError from './utils/ExpressError.js';
+import { listingSchema } from './schema.js';
 
 const app = express();
 const port = 3000;
@@ -52,8 +55,9 @@ app.get('/listings/:id', wrapAsync(async (req, res) => {
 
 // Create Route
 app.post('/listings', wrapAsync(async (req, res, next) => {
-    if (!req.body.listing) {
-        throw new ExpressError('Invalid Listing Data', 400);
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        throw new ExpressError(error.details[0].message, 400);
     }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
