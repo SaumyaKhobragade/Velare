@@ -55,7 +55,7 @@ app.post('/listings', wrapAsync(async (req, res, next) => {
     if (!req.body.listing) {
         throw new ExpressError('Invalid Listing Data', 400);
     }
-    const newListing = new Listing(req.body);
+    const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect('/listings');
 }));
@@ -71,7 +71,7 @@ app.put('/listings/:id', wrapAsync(async (req, res) => {
     if (!req.body.listing) {
         throw new ExpressError('Invalid Listing Data', 400);
     }
-    const listing = await Listing.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const listing = await Listing.findByIdAndUpdate(req.params.id, req.body.listing, { returnDocument: 'after' });
     res.redirect(`/listings/${listing._id}`);
 }));
 
@@ -87,7 +87,8 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = 'Something went wrong' } = err;
-    res.status(statusCode).send(message);
+    // res.status(statusCode).send(message);
+    res.render('error', { statusCode, message });
 });
 
 app.listen(port, () => {

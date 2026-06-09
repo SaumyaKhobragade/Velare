@@ -17,7 +17,7 @@
                     <input
                         type="text"
                         id="title"
-                        name="title"
+                        name="listing[title]"
                         value="<%= listing.title %>"
                         class="form-control"
                         required
@@ -34,7 +34,7 @@
                     >
                     <textarea
                         id="description"
-                        name="description"
+                        name="listing[description]"
                         rows="4"
                         cols="50"
                         class="form-control"
@@ -53,7 +53,7 @@
                     <input
                         type="text"
                         id="image"
-                        name="image"
+                        name="listing[image]"
                         value="<%= listing.image %>"
                         class="form-control"
                         required
@@ -72,7 +72,7 @@
                         <input
                             type="number"
                             id="price"
-                            name="price"
+                            name="listing[price]"
                             value="<%= listing.price %>"
                             class="form-control"
                             required
@@ -88,7 +88,7 @@
                         <input
                             type="text"
                             id="country"
-                            name="country"
+                            name="listing[country]"
                             value="<%= listing.country %>"
                             class="form-control"
                             required
@@ -105,7 +105,7 @@
                     <input
                         type="text"
                         id="location"
-                        name="location"
+                        name="listing[location]"
                         value="<%= listing.location %>"
                         class="form-control"
                         required
