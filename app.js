@@ -3,13 +3,13 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
+import ejsMate from 'ejs-mate';
 import joi from 'joi';
 
 import Listing from './models/listing.js';
-import ejsMate from 'ejs-mate';
 import wrapAsync from './utils/wrapAsync.js';
 import ExpressError from './utils/ExpressError.js';
-import { listingSchema } from './schema.js';
+import listingSchema from './schema.js';
 
 const app = express();
 const port = 3000;
