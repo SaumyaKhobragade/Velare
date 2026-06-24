@@ -11,6 +11,7 @@ import wrapAsync from './utils/wrapAsync.js';
 import ExpressError from './utils/ExpressError.js';
 import listingSchema from './schema.js';
 import Review from './models/review.js';
+import { reviewSchema } from './schema.js';
 
 const app = express();
 const port = 3000;
@@ -39,6 +40,16 @@ app.get('/', (req, res) => {
 
 const validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(', ');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+};
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(', ');
         throw new ExpressError(msg, 400);
@@ -91,7 +102,7 @@ app.delete('/listings/:id', wrapAsync(async (req, res) => {
 
 // Reviews
 // Post Route for Reviews
-app.post('/listings/:id/reviews', wrapAsync(async (req, res) => {
+app.post('/listings/:id/reviews', validateReview, wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
     const review = new Review(req.body.review);
     listing.reviews.push(review);
