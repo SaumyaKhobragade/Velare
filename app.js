@@ -10,6 +10,7 @@ import Listing from './models/listing.js';
 import wrapAsync from './utils/wrapAsync.js';
 import ExpressError from './utils/ExpressError.js';
 import listingSchema from './schema.js';
+import Review from './models/review.js';
 
 const app = express();
 const port = 3000;
@@ -86,6 +87,17 @@ app.put('/listings/:id', validateListing, wrapAsync(async (req, res) => {
 app.delete('/listings/:id', wrapAsync(async (req, res) => {
     const listing = await Listing.findByIdAndDelete(req.params.id);
     res.redirect('/listings');
+}));
+
+// Reviews
+// Post Route for Reviews
+app.post('/listings/:id/reviews', wrapAsync(async (req, res) => {
+    const listing = await Listing.findById(req.params.id);
+    const review = new Review(req.body.review);
+    listing.reviews.push(review);
+    await review.save();
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
 }));
 
 app.use((req, res, next) => {
