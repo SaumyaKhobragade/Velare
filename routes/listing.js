@@ -30,6 +30,10 @@ router.get('/new', (req, res) => {
 //Show Route
 router.get('/:id', wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id).populate('reviews');
+    if (!listing) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect('/listings');
+    }
     res.render('listings/show', { listing });
 }));
 
@@ -44,6 +48,10 @@ router.post('/', validateListing, wrapAsync(async (req, res, next) => {
 // Edit Route
 router.get('/:id/edit', wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+        req.flash('error', 'Cannot find that listing!');
+        return res.redirect('/listings');
+    }
     res.render('listings/edit', { listing });
 }));
 
