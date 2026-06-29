@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import ejsMate from 'ejs-mate';
+import session from 'express-session';
 
 import ExpressError from './utils/ExpressError.js';
 import listingRoutes from './routes/listing.js';
@@ -12,6 +13,16 @@ import reviewRoutes from './routes/review.js';
 const app = express();
 const port = 3000;
 const Schema = mongoose.Schema;
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
+        maxAge: 1000 * 60 * 60 * 24 * 3
+    }
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session(sessionConfig));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
