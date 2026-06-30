@@ -1,0 +1,18 @@
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require("passport-local-mongoose");
+
+const userSchema = new Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    }
+});
+
+// This plugin will add username, hash and salt fields to store the username, the hashed password and the salt value. It also adds some methods to our model.
+userSchema.plugin(passportLocalMongoose);
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
