@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/user.js';
 import wrapAsync from '../utils/wrapAsync.js';
+import passport from 'passport';
 
 const router = express.Router();
 
@@ -20,5 +21,14 @@ router.post('/signup', wrapAsync(async (req, res) => {
         res.redirect('/signup');
     }
 }));
+
+router.get('/login', (req, res) => {
+    res.render('users/login');
+});
+
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
+    req.flash('success', 'Welcome back!');
+    res.redirect("/listings");
+});
 
 export default router;
