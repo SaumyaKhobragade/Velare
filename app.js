@@ -8,11 +8,12 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
-import User from './models/user.js';
 
+import User from './models/user.js';
 import ExpressError from './utils/ExpressError.js';
 import listingRoutes from './routes/listing.js';
 import reviewRoutes from './routes/review.js';
+import userRoutes from './routes/user.js';
 
 const app = express();
 const port = 3000;
@@ -66,6 +67,7 @@ app.use((req, res, next) => {
 
 app.use('/listings', listingRoutes);
 app.use('/listings/:id/reviews', reviewRoutes);
+app.use('/', userRoutes);
 
 app.use((req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
