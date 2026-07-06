@@ -1,21 +1,9 @@
 import express from 'express';
 import Listing from '../models/listing.js';
 import wrapAsync from '../utils/wrapAsync.js';
-import ExpressError from '../utils/ExpressError.js';
-import listingSchema from '../schema.js';
-import isLoggedIn, { isOwner } from '../middleware.js';
+import isLoggedIn, { isOwner, validateListing } from '../middleware.js';
 
 const router = express.Router({ mergeParams: true });
-
-const validateListing = (req, res, next) => {
-    const { error } = listingSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(', ');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-};
 
 // Index Route
 router.get('/', wrapAsync(async (req, res) => {

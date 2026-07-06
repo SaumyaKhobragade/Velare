@@ -1,5 +1,8 @@
 import Listing from './models/listing.js';
 import wrapAsync from './utils/wrapAsync.js';
+import ExpressError from './utils/ExpressError.js';
+import listingSchema from './schema.js';
+import { reviewSchema } from './schema.js';
 
 export default function isLoggedIn(req, res, next) {
     if (!req.isAuthenticated()) {
@@ -40,3 +43,23 @@ export const isOwner = wrapAsync(async (req, res, next) => {
 
     next();
 });
+
+export const validateListing = (req, res, next) => {
+    const { error } = listingSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(', ');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+};
+
+export const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(', ');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+};

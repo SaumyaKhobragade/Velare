@@ -1,21 +1,10 @@
 import express from 'express';
 import wrapAsync from '../utils/wrapAsync.js';
-import ExpressError from '../utils/ExpressError.js';
 import Review from '../models/review.js';
-import { reviewSchema } from '../schema.js';
 import Listing from '../models/listing.js';
+import { validateReview } from '../middleware.js';
 
 const router = express.Router({ mergeParams: true });
-
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(', ');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-};
 
 // Post Route for Reviews
 router.post('/', validateReview, wrapAsync(async (req, res) => {
