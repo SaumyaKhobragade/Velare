@@ -37,7 +37,11 @@ export const renderEditForm = wrapAsync(async (req, res) => {
         req.flash('error', 'Cannot find that listing!');
         return res.redirect('/listings');
     }
-    res.render('listings/edit', { listing });
+
+    let originalImageUrl = listing.image.url;
+    originalImageUrl = originalImageUrl.replace('/upload', '/upload/w_250');
+
+    res.render('listings/edit', { listing, originalImageUrl });
 });
 
 export const updateListing = wrapAsync(async (req, res) => {
