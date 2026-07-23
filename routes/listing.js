@@ -5,25 +5,17 @@ import * as listingController from '../controllers/listings.js';
 
 const router = express.Router({ mergeParams: true });
 
-// Index Route
-router.get('/', listingController.index);
+router.route('/')
+    .get(listingController.index)
+    .post(isLoggedIn, validateListing, listingController.createListing);
 
-// New Route
 router.get('/new', isLoggedIn, listingController.renderNewForm);
 
-//Show Route
-router.get('/:id', listingController.showListing);
+router.route('/:id')
+    .get(listingController.showListing)
+    .put(isLoggedIn, isOwner, validateListing, listingController.updateListing)
+    .delete(isLoggedIn, isOwner, listingController.destroyListing);
 
-// Create Route
-router.post('/', isLoggedIn, validateListing, listingController.createListing);
-
-// Edit Route
 router.get('/:id/edit', isLoggedIn, isOwner, listingController.renderEditForm);
-
-// Update Route
-router.put('/:id', isLoggedIn, isOwner, validateListing, listingController.updateListing);
-
-// Delete Route
-router.delete('/:id', isLoggedIn, isOwner, listingController.destroyListing);
 
 export default router;
