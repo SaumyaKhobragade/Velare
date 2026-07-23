@@ -10,10 +10,7 @@ const upload = multer({ storage: cloudinaryStorage });
 
 router.route('/')
     .get(listingController.index)
-    // .post(isLoggedIn, validateListing, listingController.createListing);
-    .post(upload.single('listing[image]'), (req, res) => {
-        res.send(req.file);
-    });
+    .post(isLoggedIn, validateListing, upload.single('listing[image]'), listingController.createListing);
 
 router.get('/new', isLoggedIn, listingController.renderNewForm);
 

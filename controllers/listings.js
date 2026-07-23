@@ -22,6 +22,10 @@ export const showListing = wrapAsync(async (req, res) => {
 export const createListing = wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image = {
+        url: req.file.path,
+        filename: req.file.filename
+    };
     await newListing.save();
     req.flash('success', 'Successfully made a new listing!');
     res.redirect('/listings');
