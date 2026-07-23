@@ -4,28 +4,14 @@ import Review from '../models/review.js';
 import Listing from '../models/listing.js';
 import isLoggedIn, { validateReview, isReviewAuthor } from '../middleware.js';
 
+import * as reviewController from '../controllers/reviews.js'; 
+
 const router = express.Router({ mergeParams: true });
 
 // Post Route for Reviews
-router.post('/', isLoggedIn, validateReview, wrapAsync(async (req, res) => {
-    const listing = await Listing.findById(req.params.id);
-    const review = new Review(req.body.review);
-    review.author = req.user._id;
-    listing.reviews.push(review);
-    await review.save();
-    await listing.save();
-    req.flash('success', 'Successfully added a new review!');
-    res.redirect(`/listings/${listing._id}`);
-}));
+router.post('/', isLoggedIn, validateReview, reviewController.createReview);
 
 // Delete Route for Reviews
-router.delete('/:reviewId', isLoggedIn, isReviewAuthor, wrapAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    const listing = await Listing.findById(id);
-    req.flash('success', 'Successfully deleted review!');
-    res.redirect(`/listings/${listing._id}`);
-}));
+router.delete('/:reviewId', isLoggedIn, isReviewAuthor, reviewController.destroyReview);
 
 export default router;
