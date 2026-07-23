@@ -8,6 +8,7 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
+import 'dotenv/config';
 
 import User from './models/user.js';
 import ExpressError from './utils/ExpressError.js';
