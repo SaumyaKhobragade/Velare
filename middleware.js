@@ -1,4 +1,5 @@
 import Listing from './models/listing.js';
+import Review from './models/review.js';
 import wrapAsync from './utils/wrapAsync.js';
 import ExpressError from './utils/ExpressError.js';
 import listingSchema from './schema.js';
@@ -36,8 +37,36 @@ export const isOwner = wrapAsync(async (req, res, next) => {
         return res.redirect("/listings");
     }
 
-    if (!listing.owner.equals(req.user._id)) {
+    if (!listing.owner.equals(res.locals.currentUser._id)) {
         req.flash("error", "You do not have permission to modify this listing!");
+        return res.redirect(`/listings/${req.params.id}`);
+    }
+
+    next();
+});
+
+export const isReviewAuthor = wrapAsync(async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        req.flash("error", "You must be signed in to modify a listing!");
+        return res.redirect("/login");
+    }
+
+    const listing = await Listing.findById(req.params.id);
+
+    if (!listing) {
+        req.flash("error", "Cannot find that listing!");
+        return res.redirect("/listings");
+    }
+
+    const review = await Review.findById(req.params.reviewId);
+
+    if (!review) {
+        req.flash("error", "Cannot find that review!");
+        return res.redirect(`/listings/${req.params.id}`);
+    }
+
+    if (!review.author.equals(res.locals.currentUser._id)) {
+        req.flash("error", "You do not have permission to modify this review!");
         return res.redirect(`/listings/${req.params.id}`);
     }
 
