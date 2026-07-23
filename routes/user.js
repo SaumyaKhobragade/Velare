@@ -1,49 +1,19 @@
 import express from 'express';
-import User from '../models/user.js';
-import wrapAsync from '../utils/wrapAsync.js';
 import passport from 'passport';
 import isLoggedIn, { saveRedirectURL } from '../middleware.js';
 
+import * as userController from '../controllers/users.js';
+
 const router = express.Router();
 
-router.get('/signup', (req, res) => {
-    res.render('users/signup');
-});
+router.get('/signup', userController.renderSignupForm);
 
-router.post('/signup', wrapAsync(async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
-        const user = new User({ username, email });
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'Welcome to Velare!');
-            res.redirect('/listings');
-        });
-    } catch (e) {
-        req.flash('error', e.message);
-        res.redirect('/signup');
-    }
-}));
+router.post('/signup', userController.signupUser);
 
-router.get('/login', (req, res) => {
-    res.render('users/login');
-});
+router.get('/login', userController.renderLoginForm);
 
-router.post('/login', saveRedirectURL, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), async (req, res) => {
-    req.flash('success', 'Welcome back!');
-    const redirectUrl = res.locals.returnTo || '/listings';
-    res.redirect(redirectUrl);
-});
+router.post('/login', saveRedirectURL, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), userController.loginUser);
 
-router.get('/logout', (req, res, next) => {
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-        req.flash('success', 'Goodbye!');
-        res.redirect('/listings');
-    });
-});
+router.get('/logout', userController.logoutUser);
 
 export default router;
