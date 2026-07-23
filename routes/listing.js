@@ -16,7 +16,7 @@ router.get('/new', isLoggedIn, listingController.renderNewForm);
 
 router.route('/:id')
     .get(listingController.showListing)
-    .put(isLoggedIn, isOwner, validateListing, listingController.updateListing)
+    .put(isLoggedIn, isOwner, validateListing, upload.single('listing[image]'), listingController.updateListing)
     .delete(isLoggedIn, isOwner, listingController.destroyListing);
 
 router.get('/:id/edit', isLoggedIn, isOwner, listingController.renderEditForm);

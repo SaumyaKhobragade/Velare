@@ -42,6 +42,14 @@ export const renderEditForm = wrapAsync(async (req, res) => {
 
 export const updateListing = wrapAsync(async (req, res) => {
     const finalListing = await Listing.findByIdAndUpdate(req.params.id, req.body.listing, { returnDocument: 'after' });
+
+    if (typeof req.file !== 'undefined') {
+        finalListing.image = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+        await finalListing.save();
+    }
     req.flash('success', 'Successfully updated listing!');
     res.redirect(`/listings/${finalListing._id}`);
 });
