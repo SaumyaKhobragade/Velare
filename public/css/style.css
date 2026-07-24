@@ -130,3 +130,10 @@ body {
 .delete-btn {
     width: 7rem !important;
 }
+
+/* Map */
+#map {
+    height: 200px;
+    width: 100%;
+    border-radius: 1rem;
+}

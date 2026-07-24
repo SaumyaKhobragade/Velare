@@ -1,5 +1,9 @@
 <% layout('layouts/boilerplate') %>
 
+<script>
+    const mapToken = '<%= process.env.MAPBOX_TOKEN %>';
+</script>
+
 <body>
     <div class="row">
         <div class="col-8 offset-3">
@@ -109,4 +113,12 @@
             </div>
         <% } %>
     </div>
+
+    <div class="col-8 offset-3 mb-3">
+        <hr>
+        <h3>Where you'll be</h3>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+    </div>
 </body>
+
+<script src="/js/map.js"></script>
