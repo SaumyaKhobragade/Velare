@@ -48,7 +48,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', ejsMate);
 
 app.get('/', (req, res) => {
-    res.send('Working');
+    res.redirect('/listings');
 });
 
 app.use(session(sessionConfig));
