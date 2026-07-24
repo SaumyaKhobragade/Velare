@@ -137,3 +137,34 @@ body {
     width: 100%;
     border-radius: 1rem;
 }
+
+/* Filters */
+#filters {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filter {
+    text-align: center;
+    margin-right: 2rem;
+    opacity: 0.5;
+}
+
+.filter:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.filter p {
+    font-size: 0.8rem;
+}
+
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tax-info {
+    display: none;
+}
