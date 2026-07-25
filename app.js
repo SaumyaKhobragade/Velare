@@ -1,3 +1,6 @@
+import dns from "dns";
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -5,6 +8,7 @@ import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import ejsMate from 'ejs-mate';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import flash from 'connect-flash';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
@@ -19,8 +23,22 @@ import userRoutes from './routes/user.js';
 const app = express();
 const port = 3000;
 const Schema = mongoose.Schema;
+
+const store = MongoStore.create({
+    mongoUrl: process.env.ATLASDB_URL,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: process.env.SESSION_SECRET
+    }
+});
+
+store.on('error', function (e) {
+    console.log('SESSION STORE ERROR', e);
+});
+
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret',
+    store,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -33,7 +51,7 @@ const sessionConfig = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-mongoose.connect('mongodb://127.0.0.1:27017/velare')
+mongoose.connect(process.env.ATLASDB_URL)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
