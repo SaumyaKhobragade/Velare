@@ -142,6 +142,7 @@ body {
 #filters {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .filter {
@@ -159,12 +160,21 @@ body {
     font-size: 0.8rem;
 }
 
-.filters-container {
+.tax-info {
+    display: none;
+}
+
+.tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.25rem;
+    padding: 1rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
-.tax-info {
-    display: none;
+.btn-search {
+    background-color: #fe424d !important;
+    border: none !important;
+    color: white !important;
 }
