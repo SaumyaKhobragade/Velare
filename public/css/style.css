@@ -176,5 +176,31 @@ body {
 .btn-search {
     background-color: #fe424d !important;
     border: none !important;
+    border-radius: 5rem !important;
     color: white !important;
+    width: 7rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.btn-search:hover {
+    background-color: #fe424d !important;
+    opacity: 0.8;
+}
+
+.btn-search i {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.search-input {
+    border-radius: 5rem !important;
+    border: 1px solid #ccc !important;
+    padding: 0.5rem 1rem !important;
+    width: 20rem !important;
+    font-size: 0.875rem !important;
 }
