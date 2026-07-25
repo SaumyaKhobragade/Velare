@@ -1,5 +1,5 @@
 import express from 'express';
-import isLoggedIn, { validateReview, isReviewAuthor } from '../middleware.js';
+import isLoggedIn, { validateReview, isReviewAuthor } from '../expressMiddleware.js';
 
 import * as reviewController from '../controllers/reviews.js'; 
 

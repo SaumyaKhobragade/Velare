@@ -1,5 +1,5 @@
 import express from 'express';
-import isLoggedIn, { isOwner, validateListing } from '../middleware.js';
+import isLoggedIn, { isOwner, validateListing } from '../expressMiddleware.js';
 import multer from 'multer';
 
 import * as listingController from '../controllers/listings.js';

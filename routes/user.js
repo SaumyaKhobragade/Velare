@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import isLoggedIn, { saveRedirectURL } from '../middleware.js';
+import isLoggedIn, { saveRedirectURL } from '../expressMiddleware.js';
 
 import * as userController from '../controllers/users.js';
 
